@@ -6,11 +6,13 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.ImportResource;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 
 @Configuration
-@ComponentScan("netty.ch9, netty.ch9.service")
+@ImportResource("classpath:spring/hsqlApplicationContext.xml")
+@ComponentScan("netty.ch9, netty.ch9.core, netty.ch9.service")
 @PropertySource("classpath:api-server.properties")
 public class ApiServerConfig {
 	@Value("${boss.thread.count}")

@@ -119,13 +119,11 @@ public class ApiRequestParser extends SimpleChannelInboundHandler<FullHttpMessag
 		}
 	}
 	
-	
 	@Override
 	public void channelReadComplete(ChannelHandlerContext ctx) throws Exception {
 		logger.info("요청 처리 완료");
 		ctx.flush();
 	}
-	
 	
 	private void readPostData() {
 		try {
@@ -161,7 +159,6 @@ public class ApiRequestParser extends SimpleChannelInboundHandler<FullHttpMessag
 		request = null;
 	}
 	
-	
 	private boolean writeResponse(HttpObject currentObj, ChannelHandlerContext ctx) {
 		// 연결을 종료시킬지 말지 정함
 		boolean keepAlive = HttpHeaders.isKeepAlive(request);
@@ -183,12 +180,10 @@ public class ApiRequestParser extends SimpleChannelInboundHandler<FullHttpMessag
 		return keepAlive;
 	}
 	
-	
 	public static void send100Continue(ChannelHandlerContext ctx) {
 		FullHttpResponse response = new DefaultFullHttpResponse(HTTP_1_1, CONTINUE);
 		ctx.write(response);
 	}
-	
 	
 	@Override
 	public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause)

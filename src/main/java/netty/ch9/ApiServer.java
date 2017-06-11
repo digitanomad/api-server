@@ -10,6 +10,9 @@ import io.netty.handler.logging.LogLevel;
 import io.netty.handler.logging.LoggingHandler;
 
 import java.net.InetSocketAddress;
+import java.security.cert.CertificateException;
+
+import javax.net.ssl.SSLException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -30,7 +33,7 @@ public final class ApiServer {
 	@Qualifier("bossThreadCount")
 	private int bossThreadCount;
 	
-	public void start() {
+	public void start() throws CertificateException, SSLException {
 		EventLoopGroup bossGroup = new NioEventLoopGroup(1);
 		EventLoopGroup workerGroup = new NioEventLoopGroup(workerThreadCount);
 		ChannelFuture channelFuture = null;
@@ -45,6 +48,27 @@ public final class ApiServer {
 			
 			channelFuture = ch.closeFuture();
 			channelFuture.sync();
+			
+			/*
+			 *  HTTPS 요청 처리 추가
+			 */
+//			final SslContext sslCtx;
+//			SelfSignedCertificate ssc = new SelfSignedCertificate();
+//			sslCtx = SslContext.newServerContext(ssc.certificate(), ssc.privateKey());
+//			
+//			// 새로운 부트스트랩 추가
+//			ServerBootstrap b2 = new ServerBootstrap();
+//			b2.group(bossGroup, workerGroup)
+//				.channel(NioServerSocketChannel.class)
+//				.handler(new LoggingHandler(LogLevel.INFO))
+//				// 이벤트 루프는 첫 번째 부트스트랩과 공유하여 사용하도록 설정
+//				.childHandler(new ApiServerInitializer(sslCtx));
+//			
+//			Channel ch2 = b2.bind(8443).sync().channel();
+//			
+//			channelFuture = ch2.closeFuture();
+//			channelFuture.sync();
+			
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		} finally {
